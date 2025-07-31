@@ -75,7 +75,7 @@ async def test_negative_withdraw_operation(async_client: AsyncClient, mock_servi
 async def test_get_balance(async_client: AsyncClient, mock_service):
     response = await async_client.get(f"/wallets/{uuid.uuid4()}/balance")
     assert response.status_code == 200
-    assert response.json() == 1000
+    assert response.json()['balance'] == 1000
     mock_service.balance.assert_called_once()
 
 

@@ -27,5 +27,6 @@ ParamsDep = Annotated[OperationParams, Body()]
 class HistorySchema(BaseModel):
     id: UUID
     operation_type: str
+    amount: int
     time: datetime.datetime
     account_id: UUID

@@ -32,4 +32,7 @@ class History(Base):
     id: Mapped[pkUUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     operation_type: Mapped[OperationType] = mapped_column(index=True)
     time: Mapped[datetime.datetime] = mapped_column(server_default=text("TIMEZONE( 'utc', now())"))
+    amount: Mapped[int] = mapped_column()
     account_id: Mapped[pyUUID] = mapped_column(ForeignKey('accounts.id', ondelete='CASCADE'), index=True)
+
+    __table_args__ = (CheckConstraint("amount > 0"),)

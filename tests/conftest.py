@@ -38,6 +38,7 @@ async def history_side_effect(wallet_id: uuid.UUID, limit: int, offset: int):
                 hour=random.randint(0, 23),
                 minute=random.randint(0, 59)
             ),
+            'amount': random.randint(100, 1000),
             'account_id': wallet_id
         } for _ in range(limit)
     ]

@@ -35,12 +35,12 @@ async def get_balance(service: ServiceDep, wallet_id: UUID):
     balance = await service.balance(wallet_id)
     if balance is None:
         raise HTTPException(status_code=404, detail=f"Account with id {wallet_id} not found")
-    return balance
+    return {'ok': True, 'balance': balance}
 
 
 @router.get('/{wallet_id}/history', status_code=200)
-async def get_balance(service: ServiceDep, wallet_id: UUID, pagination: PaginationDep) -> list[HistorySchema]:
-    balance = await service.history(wallet_id, pagination.limit, pagination.offset)
-    if balance is None:
-        raise HTTPException(status_code=404, detail=f"Account with id {wallet_id} not found")
-    return balance
+async def get_history(service: ServiceDep, wallet_id: UUID, pagination: PaginationDep) -> list[HistorySchema]:
+    history = await service.history(wallet_id, pagination.limit, pagination.offset)
+    if not history:
+        raise HTTPException(status_code=404, detail=f"This wallet has not operations yet or not exist.")
+    return history

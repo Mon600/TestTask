@@ -27,7 +27,8 @@ class Repository:
 
         new_history_record = History(
             operation_type=operation,
-            account_id=wallet_id
+            account_id=wallet_id,
+            amount=amount
         )
         self.session.add(new_history_record)
 
@@ -45,7 +46,8 @@ class Repository:
 
         new_history_record = History(
             operation_type=operation,
-            account_id=wallet_id
+            account_id=wallet_id,
+            amount=amount
         )
         self.session.add(new_history_record)
 
