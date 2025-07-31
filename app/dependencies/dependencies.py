@@ -3,7 +3,8 @@ from typing import AsyncGenerator, Annotated
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.repository.repository import Repository
+from app.db.repository.history_repositoriy import HistoryRepository
+from app.db.repository.operation_repository import OperationRepository
 from app.service.service import OperationService
 from config import async_session
 
@@ -22,15 +23,24 @@ async def get_session() -> AsyncGenerator:
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 
-async def get_repository(session: SessionDep) -> Repository:
-    return Repository(session)
+async def get_operation_repository(session: SessionDep) -> OperationRepository:
+    return OperationRepository(session)
 
 
-RepositoryDep = Annotated[Repository, Depends(get_repository)]
+OperationRepositoryDep = Annotated[OperationRepository, Depends(get_operation_repository)]
 
 
-async def get_service(repository: RepositoryDep) -> OperationService:
-    return OperationService(repository)
+
+async def get_history_repository(session: SessionDep) -> HistoryRepository:
+    return HistoryRepository(session)
+
+
+HistoryRepositoryDep = Annotated[HistoryRepository, Depends(get_history_repository)]
+
+
+async def get_service(operation_repository: OperationRepositoryDep,
+                      history_repository: HistoryRepositoryDep) -> OperationService:
+    return OperationService(operation_repository, history_repository)
 
 
 ServiceDep = Annotated[OperationService, Depends(get_service)]

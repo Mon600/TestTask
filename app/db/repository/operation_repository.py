@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import BankAccount, OperationType, History
 
 
-class Repository:
+class OperationRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
@@ -60,8 +60,3 @@ class Repository:
         balance = res.scalars().one_or_none()
         return balance
 
-    async def get_history(self, wallet_id: UUID, limit: int, offset: int):
-        stmt = select(History).where(History.account_id == wallet_id).offset(offset).limit(limit)
-        res = await self.session.execute(stmt)
-        balance = res.scalars().all()
-        return balance
