@@ -18,7 +18,7 @@ class OperationService:
             wallet_id = await self.operation_repository.create()
             return wallet_id
         except Exception as e:
-            self.logger.error(e)
+            self.logger.warning(e)
             return None
 
     async def operation(self, wallet_id: UUID, amount: int, operation: OperationType):
@@ -31,7 +31,7 @@ class OperationService:
                 raise TypeError("Invalid operation type")
             return balance
         except Exception as e:
-            self.logger.error(e)
+            self.logger.warning(e)
             return None
 
     async def balance(self, wallet_id: UUID):
@@ -39,7 +39,7 @@ class OperationService:
             balance = await self.operation_repository.get_balance(wallet_id)
             return balance
         except Exception as e:
-            self.logger.error(e)
+            self.logger.warning(e)
             return None
 
     async def history(self, wallet_id: UUID, limit: int, offset: int):
@@ -47,5 +47,5 @@ class OperationService:
             history = await self.history_repository.get_history(wallet_id, limit, offset)
             return history
         except Exception as e:
-            self.logger.error(e)
+            self.logger.warning(e)
             return None
